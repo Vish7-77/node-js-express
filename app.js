@@ -1,9 +1,9 @@
 const express = require("express");
 const app = express();
-const userRouter = require("./src/routes/userRoute");
+const productRouter = require("./src/routes/productRoute");
 
-app.use("/api", userRouter);
-
-//localhost:2300/api/user/254352
+// app .,use expres.json() is important when u want to send the data in body
+ app.use(express.json());
+app.use("/api", productRouter);
 
 module.exports = app;

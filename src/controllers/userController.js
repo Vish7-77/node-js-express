@@ -1,9 +1,9 @@
 const userModal = require("../model/userModal");
 
 exports.createUserId = async (req, res) => {
-  const { id } = req.params;
-  const newUserId = await userModal.create({ id });
-  res.send("This ismy id" + id);
+  const { id } = req.params; // taking the data
+  const newUserId = await userModal.create({ id }); // creating the data in database
+  res.send("this is the respose from server: with id" + id); // return the response
 };
 
 exports.getALlIds = async (req, res) => {
