@@ -1,9 +1,10 @@
 const express = require("express");
 const app = express();
-const productRouter = require("./src/routes/productRoute");
+const userRoute = require("./src/routes/userRoute");
 
-// app .,use expres.json() is important when u want to send the data in body
- app.use(express.json());
-app.use("/api", productRouter);
+app.use(express.json());
+app.use("/api", userRoute);
 
 module.exports = app;
+
+//localhost:2300/api/create/user --  POST -- body:{name:,email:password}
