@@ -47,7 +47,6 @@ exports.loginUser = async (req, res) => {
     // find the user with mail and check if its present in DB
     const userExist = await User.findOne({ email });
 
-
     // if user not exist then throw the error response
     if (!userExist) {
       return res.status(404).json({
@@ -65,10 +64,36 @@ exports.loginUser = async (req, res) => {
     res.status(200).json({
       message: "Logged in successfully",
       userExist: userExist,
-    }); 
-    
+    });
   } catch (error) {
     return res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+exports.getAUser = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const user = await User.findById(id);
+    res.status(200).json({
+      user,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+exports.getUsers = async (req, res) => {
+  try {
+    const users = await User.find();
+    res.status(200).json({
+      users,
+    });
+  } catch (error) {
+    res.status(500).json({
       message: error.message,
     });
   }
