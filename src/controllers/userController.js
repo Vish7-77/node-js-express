@@ -10,12 +10,26 @@ exports.signUpUser = async (req, res) => {
     const password = req.body.password;
     const name = req.body.name;
 
+    
+
+
     // we are checking whether those values are really present or nont
     if (!email || !password || !name) {
       return res.status(400).json({
         message: "Missing the data write proper data",
       });
     }
+
+
+    const userExist = await User.findOne({email});
+    if(userExist){
+      return res.status(400).json({
+        message: "User already exist with this email",
+      });
+    }
+
+
+
 
     const newUser = await User.create({ email, password, name });
     res.status(200).json({
