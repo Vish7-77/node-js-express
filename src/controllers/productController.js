@@ -59,3 +59,39 @@ exports.getAllProducts = async (req, res) => {
     });
   }
 };
+
+exports.updateAProduct = async (req, res) => {
+  try {
+    // these two things will be taken from user to perform any action
+    const { id } = req.params; // this will be the parameter ID we will find the product from this
+    const { title, description, price } = req.body; // this will be the data which we will edit
+
+    const newProduct = await Product.findByIdAndUpdate(
+      id,
+      {
+        title,
+        description,
+        price,
+      },
+      { new: true }
+    );
+
+    res.status(200).json({ newProduct });
+  } catch (error) {
+    res.status(500).json({
+      message: error?.message,
+    });
+  }
+};
+
+exports.deleteProduct = async (req, res) => {
+  try {
+    const { id } = req.params; // this will be the parameter ID we will find the product from this
+    await Product.findOneAndDelete(id);
+    res.status(200).json({ message: "Product deleted successfully" });
+  } catch (error) {
+    res.status(500).json({
+      message: error?.message,
+    });
+  }
+};

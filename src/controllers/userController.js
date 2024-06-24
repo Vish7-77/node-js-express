@@ -10,9 +10,6 @@ exports.signUpUser = async (req, res) => {
     const password = req.body.password;
     const name = req.body.name;
 
-    
-
-
     // we are checking whether those values are really present or nont
     if (!email || !password || !name) {
       return res.status(400).json({
@@ -20,16 +17,12 @@ exports.signUpUser = async (req, res) => {
       });
     }
 
-
-    const userExist = await User.findOne({email});
-    if(userExist){
+    const userExist = await User.findOne({ email });
+    if (userExist) {
       return res.status(400).json({
         message: "User already exist with this email",
       });
     }
-
-
-
 
     const newUser = await User.create({ email, password, name });
     res.status(200).json({
@@ -105,6 +98,41 @@ exports.getUsers = async (req, res) => {
     const users = await User.find();
     res.status(200).json({
       users,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+exports.editUser = async (req, res) => {
+  try {
+    // these two things will be taken from user to perform any action
+    const { id } = req.params; // this will be the parameter ID we will find the product from this
+    const { name, email } = req.body; // this will be the data which we will edit
+    const newUser = await User.findByIdAndUpdate(
+      id,
+      { name, email },
+      { new: true }
+    );
+
+    res.status(200).json({
+      newUser,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+exports.deleteUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await User.findOneAndDelete(id);
+    res.status(200).json({
+      message: "User deleted Successfully",
     });
   } catch (error) {
     res.status(500).json({
