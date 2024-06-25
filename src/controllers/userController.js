@@ -1,4 +1,5 @@
 const User = require("../model/userModel");
+const jwt = require("jsonwebtoken");
 
 // this will be async function because my function will talk to database for creating the new user
 exports.signUpUser = async (req, res) => {
@@ -17,6 +18,7 @@ exports.signUpUser = async (req, res) => {
       });
     }
 
+    // we are checking whether the user is already exist or not
     const userExist = await User.findOne({ email });
     if (userExist) {
       return res.status(400).json({
@@ -67,10 +69,14 @@ exports.loginUser = async (req, res) => {
         message: "Invalid credentials",
       });
     }
+    const id = userExist._id;
+
+    //adding the token -- encrypted key
+    const token = jwt.sign({ id }, "jdhscvjdhcnhdsgv$%RYTRFUYDFYCRDHC");
 
     res.status(200).json({
       message: "Logged in successfully",
-      userExist: userExist,
+      token,
     });
   } catch (error) {
     return res.status(500).json({
