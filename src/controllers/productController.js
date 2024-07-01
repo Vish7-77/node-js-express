@@ -1,3 +1,4 @@
+const jwt= require("jsonwebtoken");
 const Product = require("../model/productModel");
 const User = require("../model/userModel");
 
@@ -6,33 +7,40 @@ exports.createProduct = async (req, res) => {
     const title = req.body.title;
     const description = req.body.description;
     const price = req.body.price;
-    const owner = req.body.owner;
+    const token = req.body.token;
+
+   
 
     // first check to get all data, if any data part is missing then it will not further
-    if (!title || !description || !price || !owner) {
+    if (!title || !description || !price || !token) {
       return res.status(400).json({
         message: "Missing the deatils , please fill all the details",
       });
     }
 
-    const user = await User.findById(owner);
+    const {id}  = await jwt.verify(token,"jdhscvjdhcnhdsgv$%RYTRFUYDFYCRDHC");
+    const user = await User.findById(id);
     if (!user) {
       return res.status(400).json({
         message: "User not found on this Id",
       });
     }
 
+
+
     const data = {
       title,
       description,
       price,
-      owner,
+      owner:id,
     };
 
     const product = await Product.create(data);
     res.status(200).json({
       product,
     });
+
+    
   } catch (error) {
     res.status(500).json({
       message: error?.message,

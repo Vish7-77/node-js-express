@@ -34,3 +34,14 @@ ii -> User -> CRUD |:|
 -> user 001 -> SIgn Up
 he sign up success:
 useer 001 -> Check will trigger and it will throw an error
+
+
+
+
+
+/// You  have to check the token on these routes :
+
+    -> create a product -> check token -> decrypt that token -> takee out the user id -> from that ID find the user  -> if user exist with that ID -> proceed with the create product -> throw error that user not found
+    -> get of a product  -> const {token} = req.query -> decrypt that token -> takee out the user id -> from that ID find the user  -> if user exist with that ID -> proceed with the get products -> throw error that user not found
+     -> update of a product  -> const {token} = req.query -> decrypt that token -> takee out the user id -> from that ID find the user  -> if user exist with that ID -> proceed with the update  products -> throw error that user not found
+
