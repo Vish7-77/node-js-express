@@ -7,22 +7,13 @@ exports.createProduct = async (req, res) => {
     const title = req.body.title;
     const description = req.body.description;
     const price = req.body.price;
-    const token = req.body.token;
 
    
 
     // first check to get all data, if any data part is missing then it will not further
-    if (!title || !description || !price || !token) {
+    if (!title || !description || !price ) {
       return res.status(400).json({
         message: "Missing the deatils , please fill all the details",
-      });
-    }
-
-    const {id}  = await jwt.verify(token,"jdhscvjdhcnhdsgv$%RYTRFUYDFYCRDHC");
-    const user = await User.findById(id);
-    if (!user) {
-      return res.status(400).json({
-        message: "User not found on this Id",
       });
     }
 
@@ -32,7 +23,6 @@ exports.createProduct = async (req, res) => {
       title,
       description,
       price,
-      owner:id,
     };
 
     const product = await Product.create(data);
@@ -40,7 +30,7 @@ exports.createProduct = async (req, res) => {
       product,
     });
 
-    
+
   } catch (error) {
     res.status(500).json({
       message: error?.message,
@@ -51,14 +41,6 @@ exports.createProduct = async (req, res) => {
 // this will be a get request so you cannot pass the body:  params query
 exports.getAllProducts = async (req, res) => {
   try {
-    const id = req.query.id;
-    const user = await User.findById(id);
-    if (!user) {
-      return res.status(400).json({
-        message: "User not found on this Id",
-      });
-    }
-
     const products = await Product.find();
     res.status(200).json({ products });
   } catch (error) {

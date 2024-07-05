@@ -72,7 +72,7 @@ exports.loginUser = async (req, res) => {
     const id = userExist._id;
 
     //adding the token -- encrypted key
-    const token = jwt.sign({ id:id }, "jdhscvjdhcnhdsgv$%RYTRFUYDFYCRDHC");
+    const token = jwt.sign({ userId:id }, "jdhscvjdhcnhdsgv$%RYTRFUYDFYCRDHC");
 
     res.status(200).json({
       message: "Logged in successfully",

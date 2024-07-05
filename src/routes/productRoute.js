@@ -5,11 +5,12 @@ const {
   updateAProduct,
   deleteProduct,
 } = require("../controllers/productController");
+const { authMiddleware } = require("../middlewares/auth");
 const router = express.Router();
 
 // CRUD operations for PRODUCT
-router.post("/create/product", createProduct);
-router.get("/products", getAllProducts);
+router.post("/create/product",authMiddleware, createProduct);
+router.get("/products",authMiddleware, getAllProducts);
 
 // the put route which can edit the existing record
 router.put("/product/edit/:id", updateAProduct);
